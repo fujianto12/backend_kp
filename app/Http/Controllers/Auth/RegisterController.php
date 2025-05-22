@@ -50,9 +50,28 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+             'name' => ['required', 'string', 'max:255'],
+        'email' => [
+            'required',
+            'string',
+            'email',
+            'max:255',
+            'unique:users',
+            // Rule custom domain gmail.com
+            function ($attribute, $value, $fail) {
+                if (!preg_match('/^[\w.+-]+@gmail\.com$/i', $value)) {
+                    $fail('Email harus menggunakan domain gmail.com');
+                }
+            },
+            // Rule custom cek DNS domain
+            function ($attribute, $value, $fail) {
+                $domain = substr(strrchr($value, "@"), 1);
+                if (!checkdnsrr($domain, 'MX')) {
+                    $fail('Domain email tidak valid atau tidak ditemukan.');
+                }
+            },
+        ],
+        'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
 

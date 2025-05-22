@@ -48,12 +48,12 @@
                     <fieldset>
                         <legend>Please, enter your email and password for login.</legend>
                         <div class="input-block">
-                            <label for="login-email">E-mail</label>
-                            <input id="login-email" type="email" required>
+                            <label for="email">E-mail</label>
+                            <input id="email" type="email" required>
                         </div>
                         <div class="input-block">
-                            <label for="login-password">Password</label>
-                            <input id="login-password" type="password" required>
+                            <label for="password">Password</label>
+                            <input id="password" type="password" required>
                         </div>
                     </fieldset>
                     <button type="submit" class="btn-login">Login</button>

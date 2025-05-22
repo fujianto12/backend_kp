@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,14 +32,14 @@ Route::get('/', function () {
 
 
 
-Route::group(['middleware' => 'auth'], function() {
+Route::group(['middleware' => ['auth', 'no-cache']], function() {
 
     Route::get('test',[\App\Http\Controllers\TestController::class, 'index'])->name('client.test');
     Route::post('test',[\App\Http\Controllers\TestController::class, 'store'])->name('client.test.store');
     Route::get('results/{result_id}',[\App\Http\Controllers\ResultController::class, 'show'])->name('client.results.show');
 
     // admin only
-    Route::group(['middleware' => 'isAdmin','prefix' => 'admin', 'as' => 'admin.'], function() {
+    Route::group(['middleware' => ['isAdmin', 'no-cache'], 'prefix' => 'admin', 'as' => 'admin.'], function() {
         Route::get('dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard.index');
         Route::resource('permissions', \App\Http\Controllers\Admin\PermissionController::class);
         Route::delete('permissions_mass_destroy', [\App\Http\Controllers\Admin\PermissionController::class, 'massDestroy'])->name('permissions.mass_destroy');
@@ -65,6 +66,17 @@ Route::group(['middleware' => 'auth'], function() {
     });
 
 });
+
+
+Route::middleware(['guest', 'no-cache'])->group(function () {
+    Route::get('login', [\App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [\App\Http\Controllers\Auth\LoginController::class, 'login']);
+    Route::get('register', [\App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('register', [\App\Http\Controllers\Auth\RegisterController::class, 'register']);
+});
+
+
+
 
 Auth::routes();
 
