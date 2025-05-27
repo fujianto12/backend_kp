@@ -36,78 +36,41 @@
 
     <!-- Forms Section -->
     <section class="forms-section">
-        <div class="forms">
-            <div class="form-wrapper is-active">
-                <button type="button" class="switcher switcher-login">
-                    Login
-                    <span class="underline"></span>
-                </button>
-                <form class="form form-login" method="POST" action="{{ route('login') }}">
+        <div class="bg-img">
+            <div class="content">
+                <header>Welcome To <h1 style="color: rgb(38, 211, 11)">PT. Lematang</h1></header>
+
+                <form method="POST" action="{{ route('login') }}">
                     @csrf
-                    <fieldset>
-                        <legend>Please, enter your email and password for login.</legend>
-                        <div class="input-block">
-                            <label for="email">{{ __('Email Address') }}</label>
-                            <input id="email" type="email" class=" @error('email') is-invalid @enderror"
-                                name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                            @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                        <div class="input-block">
-                            <label for="login-password">{{ __('Password') }}</label>
-                            <input id="password" type="password" class="@error('password') is-invalid @enderror"
-                                name="password" required autocomplete="current-password">
-
-                            @error('password')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </fieldset>
-                    <button type="submit" class="btn-login">{{ __('login') }}</button>
-
-                    @if (Route::has('password.request'))
-                        <a class="btn btn-link" href="{{ route('password.request') }}">
-                            {{ __('Forgot Your Password?') }}
-                        </a>
-                    @endif
+                    <div class="field">
+                        <span class="fa fa-user"></span>
+                        <input type="email" name="email" required placeholder="Email or Phone" />
+                    </div>
+                    <div class="field space">
+                        <span class="fa fa-lock"></span>
+                        <input type="password" name="password" class="pass-key" required placeholder="Password" />
+                        <span class="show" onclick="togglePassword()">SHOW</span>
+                    </div>
+                    <div class="pass">
+                        <a href="{{ route('password.request') }}">Forgot Password?</a>
+                    </div>
+                    <div class="field">
+                        <input type="submit" value="LOGIN" />
+                    </div>
                 </form>
-            </div>
-            <div class="form-wrapper">
-                <button type="button" class="switcher switcher-signup">
-
-                    <a href="{{ __('register') }}" class="text-decoration-none text-white">
-                        Register
-                        <span class="underline"></span>
-                    </a>
-                </button>
-                <form class="form form-signup">
-                    <fieldset>
-                        <legend>Please, enter your email, password and password confirmation for sign up.</legend>
-                        <div class="input-block">
-                            <label for="signup-username">Username</label>
-                            <input id="signup-email" type="text" required>
-                        </div>
-                        <div class="input-block">
-                            <label for="login-email">E-mail</label>
-                            <input id="login-email" type="email" required>
-                        </div>
-                        <div class="input-block">
-                            <label for="login-password">Password</label>
-                            <input id="login-password" type="password" required>
-                        </div>
-                        <div class="input-block">
-                            <label for="login-password">Comfirm Password</label>
-                            <input id="login-password" type="password" required>
-                        </div>
-                    </fieldset>
-                    <button type="submit" class="btn-signup">Register</button>
-                </form>
+                {{-- <div class="login">Or login with</div>
+                <div class="links">
+                    <div class="facebook">
+                        <i class="fab fa-facebook-f"><span>Facebook</span></i>
+                    </div>
+                    <div class="instagram">
+                        <i class="fab fa-instagram"><span>Instagram</span></i>
+                    </div>
+                </div> --}}
+                {{-- <div class="signup">
+                    Don't have account?
+                    <a href="{{ route('register') }}">Signup Now</a>
+                </div> --}}
             </div>
         </div>
     </section>
