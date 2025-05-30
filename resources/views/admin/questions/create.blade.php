@@ -2,50 +2,63 @@
 
 @section('content')
 <div class="container-fluid">
+    <h1>Create Question</h1>
 
-    <!-- Page Heading -->
+    <form action="{{ route('admin.questions.store') }}" method="POST">
+        @csrf
 
-
-    @if($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
+        <div class="form-group">
+            <label for="category_id">Category</label>
+            <select name="category_id" id="category_id" class="form-control" required>
+                <option value="">-- Select Category --</option>
+                @foreach($categories as $id => $name)
+                    <option value="{{ $id }}" {{ old('category_id') == $id ? 'selected' : '' }}>{{ $name }}</option>
                 @endforeach
-            </ul>
+            </select>
+            @error('category_id')<small class="text-danger">{{ $message }}</small>@enderror
         </div>
-    @endif
 
-<!-- Content Row -->
-        <div class="card shadow">
-            <div class="card-header">
-                <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">{{ __('Membuat Pertanyaan') }}</h1>
-                    <a href="{{ route('admin.questions.index') }}" class="btn btn-primary btn-sm shadow-sm">{{ __('Go Back') }}</a>
-                </div>
-            </div>
-            <div class="card-body">
-                <form action="{{ route('admin.questions.store') }}" method="POST">
-                    @csrf
-                    <div class="form-group">
-                        <label for="question_text">{{ __('question text') }}</label>
-                        <input type="text" class="form-control" id="question_text" placeholder="{{ __('question text') }}" name="question_text" value="{{ old('question_text') }}" />
-                    </div>
-                    <div class="form-group">
-                        <label for="category">{{ __('Category') }}</label>
-                        <select class="form-control" name="category_id" id="category">
-                            @foreach($categories as $id => $category)
-                                <option value="{{ $id }}">{{ $category }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">{{ __('Save') }}</button>
-                </form>
+        <div class="form-group">
+            <label for="question_text">Question Text</label>
+            <textarea name="question_text" id="question_text" class="form-control" required>{{ old('question_text') }}</textarea>
+            @error('question_text')<small class="text-danger">{{ $message }}</small>@enderror
+        </div>
+
+        <hr>
+
+        <label>Options</label>
+        <div id="options-wrapper">
+            <div class="option-item mb-3">
+                <input type="text" name="options[]" class="form-control mb-1" placeholder="Option text" required>
+                <input type="number" name="points[]" class="form-control" placeholder="Points" required min="0" value="0">
             </div>
         </div>
 
+        <button type="button" id="add-option-btn" class="btn btn-secondary btn-sm mb-3">Add Option</button>
 
-    <!-- Content Row -->
+        <br>
 
+        <button type="submit" class="btn btn-primary">Save Question</button>
+    </form>
 </div>
+
+<script>
+    document.getElementById('add-option-btn').addEventListener('click', function() {
+        const wrapper = document.getElementById('options-wrapper');
+
+        const div = document.createElement('div');
+        div.classList.add('option-item', 'mb-3');
+        div.innerHTML = `
+            <input type="text" name="options[]" class="form-control mb-1" placeholder="Option text" required>
+            <input type="number" name="points[]" class="form-control" placeholder="Points" required min="0" value="0">
+            <button type="button" class="btn btn-danger btn-sm mt-1 remove-option-btn">Remove</button>
+        `;
+
+        wrapper.appendChild(div);
+
+        div.querySelector('.remove-option-btn').addEventListener('click', function() {
+            div.remove();
+        });
+    });
+</script>
 @endsection

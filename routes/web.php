@@ -4,6 +4,17 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Admin\OptionController;
+use App\Http\Controllers\Admin\ResultController;
+use App\Http\Controllers\SelfLearningController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\QuestionController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PermissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +33,20 @@ use App\Http\Controllers\TestController;
 //     return redirect()->route('register');
 // });
 Route::get('/', function () {
-    return view('home'); // Atau halaman apapun yang ingin Anda tampilkan pertama kali
+    return view('home');
 });
-
+Route::get('/about', function () {
+    return view('guess_menu/about');
+});
+Route::get('/contact', function () {
+    return view('guess_menu/contact');
+});
+Route::get('/visimisi', function () {
+    return view('guess_menu/visimisi');
+});
+// Route::get('/selflearning', function () {
+//     return view('client/selflearning');
+// });
 // if (Auth::check()) {
 //     // Jika sudah login, arahkan ke halaman awal (misalnya dashboard atau home)
 //     return redirect()->route('client.home');
@@ -32,14 +54,23 @@ Route::get('/', function () {
 
 
 
-Route::group(['middleware' => ['auth', 'no-cache']], function() {
+Route::group(['middleware' => ['auth', 'no-cache']], function () {
 
-    Route::get('test',[\App\Http\Controllers\TestController::class, 'index'])->name('client.test');
-    Route::post('test',[\App\Http\Controllers\TestController::class, 'store'])->name('client.test.store');
-    Route::get('results/{result_id}',[\App\Http\Controllers\ResultController::class, 'show'])->name('client.results.show');
+    Route::get('test', [\App\Http\Controllers\TestController::class, 'index'])->name('client.test');
+    Route::post('test', [\App\Http\Controllers\TestController::class, 'store'])->name('client.test.store');
+    Route::get('results/{result_id}', [\App\Http\Controllers\ResultController::class, 'show'])->name('client.results.show');
+    Route::get('selflearning', [\App\Http\Controllers\SelfLearningController::class, 'index'])->name('selflearning.index');
+    Route::get('modules/{id}', [\App\Http\Controllers\Admin\ModuleController::class, 'show'])->name('modules.show');
+
+    // Route::post('admin/modules/store-multiple', [\App\Http\Controllers\Admin\ModuleController::class, 'storeMultiple'])->name('admin.modules.storeMultiple');
+    Route::resource('admin/modules', \App\Http\Controllers\Admin\ModuleController::class);
+
+
+
 
     // admin only
-    Route::group(['middleware' => ['isAdmin', 'no-cache'], 'prefix' => 'admin', 'as' => 'admin.'], function() {
+
+    Route::group(['middleware' => ['isAdmin', 'no-cache'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
         Route::get('dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard.index');
         Route::resource('permissions', \App\Http\Controllers\Admin\PermissionController::class);
         Route::delete('permissions_mass_destroy', [\App\Http\Controllers\Admin\PermissionController::class, 'massDestroy'])->name('permissions.mass_destroy');
@@ -54,6 +85,8 @@ Route::group(['middleware' => ['auth', 'no-cache']], function() {
 
         // questions
         Route::resource('questions', \App\Http\Controllers\Admin\QuestionController::class);
+        Route::get('/detailsoal/{id}', [\App\Http\Controllers\Admin\QuestionController::class, 'detailSoalById'])->name('detailsoal.index');
+
         Route::delete('questions_mass_destroy', [\App\Http\Controllers\Admin\QuestionController::class, 'massDestroy'])->name('questions.mass_destroy');
 
         // options
@@ -63,8 +96,12 @@ Route::group(['middleware' => ['auth', 'no-cache']], function() {
         // results
         Route::resource('results', \App\Http\Controllers\Admin\ResultController::class);
         Route::delete('results_mass_destroy', [\App\Http\Controllers\Admin\ResultController::class, 'massDestroy'])->name('results.mass_destroy');
-    });
 
+        // module
+        Route::resource('modules', \App\Http\Controllers\Admin\ModuleController::class);
+        Route::delete('modules_mass_destroy', [\App\Http\Controllers\Admin\ModuleController::class, 'massDestroy'])->name('modules.mass_destroy');
+        Route::post('modules/store-multiple', [\App\Http\Controllers\Admin\ModuleController::class, 'storeMultiple'])->name('modules.storeMultiple');
+    });
 });
 
 
@@ -79,4 +116,3 @@ Route::middleware(['guest', 'no-cache'])->group(function () {
 
 
 Auth::routes();
-

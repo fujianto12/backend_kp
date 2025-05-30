@@ -11,12 +11,18 @@ class Question extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    public function category(){
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 
-    public function questionOptions(){
+    public function questionOptions()
+    {
         return $this->hasMany(Option::class);
     }
-    
+
+    public function options()
+    {
+        return $this->hasMany(Option::class);
+    }
 }
