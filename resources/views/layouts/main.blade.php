@@ -102,8 +102,23 @@
                                 class="nav-item nav-link {{ request()->is('visimisi') ? 'active' : '' }}">Visi Dan
                                 Misi</a>
 
+
+                            @if (Auth::check() && strtolower(Auth::user()->role->title ?? '') === 'admin')
+                                <a href="{{ url('admin/categories') }}"
+                                    class="nav-item nav-link {{ request()->is('admin/categories*') ? 'active' : '' }}">
+                                    Admin
+                                </a>
+                            @endif
+                            @if (Auth::check())
+                                <p>Role user saat ini: "{{ Auth::user()->role->title ?? 'role kosong' }}"</p>
+                            @endif
+
+
+
+
                             @if (Auth::check())
                                 <a href="{{ url('selflearning') }}"
+<<<<<<< HEAD
                                     class="nav-item nav-link {{ request()->is('selflearning') ? 'active' : '' }}">Self
                                     Learning</a>
                             @endif
@@ -114,6 +129,11 @@
                             @endif --}}
                             @if (auth()->check() && auth()->user()->roles()->where('title', 'admin')->exists())
                                 <a class="nav-item nav-link" href="/admin">Admin</a>
+=======
+                                    class="nav-item nav-link {{ request()->is('selflearning') ? 'active' : '' }}">
+                                    Self Learning
+                                </a>
+>>>>>>> 92472747478ebcea3fd8f319827e7466e01f1380
                             @endif
 
 
@@ -212,6 +232,15 @@
     <script src="{{ asset('lib/slick/slick.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous">
+    </script>
+
+    <script>
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                // jika halaman dibuka dari cache back-forward, reload halaman
+                window.location.reload();
+            }
+        });
     </script>
 
     <!-- Template Javascript -->
