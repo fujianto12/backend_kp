@@ -109,16 +109,15 @@
                                     Admin
                                 </a>
                             @endif
-                            @if (Auth::check())
+                            {{-- @if (Auth::check())
                                 <p>Role user saat ini: "{{ Auth::user()->role->title ?? 'role kosong' }}"</p>
-                            @endif
+                            @endif --}}
 
 
 
 
                             @if (Auth::check())
                                 <a href="{{ url('selflearning') }}"
-<<<<<<< HEAD
                                     class="nav-item nav-link {{ request()->is('selflearning') ? 'active' : '' }}">Self
                                     Learning</a>
                             @endif
@@ -129,11 +128,6 @@
                             @endif --}}
                             @if (auth()->check() && auth()->user()->roles()->where('title', 'admin')->exists())
                                 <a class="nav-item nav-link" href="/admin">Admin</a>
-=======
-                                    class="nav-item nav-link {{ request()->is('selflearning') ? 'active' : '' }}">
-                                    Self Learning
-                                </a>
->>>>>>> 92472747478ebcea3fd8f319827e7466e01f1380
                             @endif
 
 
