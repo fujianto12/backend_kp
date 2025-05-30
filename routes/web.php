@@ -56,11 +56,19 @@ Route::get('/visimisi', function () {
 
 Route::group(['middleware' => ['auth', 'no-cache']], function () {
 
-    Route::get('test', [\App\Http\Controllers\TestController::class, 'index'])->name('client.test');
-    Route::post('test', [\App\Http\Controllers\TestController::class, 'store'])->name('client.test.store');
+    // Route::get('test', [\App\Http\Controllers\TestController::class, 'index'])->name('client.test');
+    // Route::post('test', [\App\Http\Controllers\TestController::class, 'store'])->name('client.test.store');
     Route::get('results/{result_id}', [\App\Http\Controllers\ResultController::class, 'show'])->name('client.results.show');
     Route::get('selflearning', [\App\Http\Controllers\SelfLearningController::class, 'index'])->name('selflearning.index');
     Route::get('modules/{id}', [\App\Http\Controllers\Admin\ModuleController::class, 'show'])->name('modules.show');
+
+
+
+
+
+    Route::get('/test/{category}', [TestController::class, 'showByCategory'])->name('client.test.category');
+    Route::post('/test/{category}', [TestController::class, 'storeAnswers'])->name('client.test.store');
+
 
     // Route::post('admin/modules/store-multiple', [\App\Http\Controllers\Admin\ModuleController::class, 'storeMultiple'])->name('admin.modules.storeMultiple');
     Route::resource('admin/modules', \App\Http\Controllers\Admin\ModuleController::class);

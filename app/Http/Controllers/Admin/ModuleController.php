@@ -93,4 +93,14 @@ class ModuleController extends Controller
         return redirect()->route('admin.modules.index')->with('success', 'Modul berhasil ditambahkan.');
     }
 
+    public function showModule($id)
+    {
+        $module = Module::with('category.modules')->findOrFail($id);
+
+        $category = $module->category;
+
+        $firstCategories = Category::first(); // contoh ambil kategori pertama, sesuaikan logika Anda
+
+        return view('client.showModul', compact('module', 'category', 'firstCategories'));
+    }
 }

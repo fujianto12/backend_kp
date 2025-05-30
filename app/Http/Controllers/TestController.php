@@ -10,38 +10,49 @@ use App\Http\Requests\StoreTestRequest;
 
 class TestController extends Controller
 {
-    public function index()
-    {
-        $categories = Category::with(['categoryQuestions' => function ($query) {
-                $query->inRandomOrder()
-                    ->with(['questionOptions' => function ($query) {
-                        $query->inRandomOrder();
-                    }]);
-            }])
-            ->whereHas('categoryQuestions')
-            ->get();
+    // public function index(Request $request)
+    // {
+    //     $categoryId = $request->query('category');
 
-        return view('client.test', compact('categories'));
+    //     $categories = Category::with(['categoryQuestions.questionOptions'])
+    //         ->when($categoryId, fn($q) => $q->where('id', $categoryId))
+    //         ->whereHas('categoryQuestions')
+    //         ->get();
+
+    //     return view('client.test', compact('categories', 'categoryId'));
+    // }
+    // public function index()
+    // {
+    //     $categories = Category::with(['categoryQuestions.questionOptions'])->get();
+
+    //     return view('client.test', compact('categories'));
+    // }
+
+
+     public function showByCategory(Category $category)
+    {
+        // Load questions dan options dalam 1 query
+        $category->load('questions.options');
+
+        // Kirim data kategori sebagai koleksi supaya view looping categories tetap konsisten
+        return view('client.test', [
+            'categories' => collect([$category])
+        ]);
     }
 
-    public function store(StoreTestRequest $request)
+    // Proses simpan jawaban
+    public function storeAnswers(Request $request, Category $category)
     {
-        $options = Option::find(array_values($request->input('questions')));
-
-        $result = auth()->user()->userResults()->create([
-            'total_points' => $options->sum('points')
+        $data = $request->validate([
+            'questions' => 'required|array',
+            'questions.*' => 'required|integer',
         ]);
 
-        $questions = $options->mapWithKeys(function ($option) {
-            return [$option->question_id => [
-                        'option_id' => $option->id,
-                        'points' => $option->points
-                    ]
-                ];
-            })->toArray();
+        // Contoh logika simpan jawaban, bisa disesuaikan:
+        // Simpan ke tabel jawaban user, hitung skor, dsb.
 
-        $result->questions()->sync($questions);
-
-        return redirect()->route('client.results.show', $result->id);
+        // Redirect kembali ke halaman kuis dengan pesan sukses
+        return redirect()->route('client.test.category', $category->id)
+                         ->with('success', 'Jawaban berhasil dikirim!');
     }
 }
