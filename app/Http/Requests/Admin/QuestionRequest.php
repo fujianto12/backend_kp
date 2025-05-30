@@ -21,11 +21,15 @@ class QuestionRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+     public function rules()
     {
         return [
-            'category_id' => 'required',
-            'question_text' => 'required'
+            'question_text' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'options' => 'required|array|min:1',
+            'options.*' => 'required|string|max:255',
+            'points' => 'required|array',
+            'points.*' => 'required|numeric|min:0',
         ];
     }
 }
