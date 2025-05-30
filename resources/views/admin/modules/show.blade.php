@@ -1,4 +1,4 @@
-{{-- @extends('layouts.main')
+@extends('layouts.main')
 
 @section('title', 'Modul Kategori: ' . $module->category->name)
 
@@ -32,4 +32,4 @@
 
     <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 </div>
-@endsection --}}
+@endsection
