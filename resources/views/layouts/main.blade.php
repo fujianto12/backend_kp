@@ -63,7 +63,7 @@
                                     <div class="top-bar-icon"><i class="flaticon-call"></i></div>
                                     <div class="top-bar-text">
                                         <h3>Telepon</h3>
-                                        <p>+012 345 6789</p>
+                                        <p>0711 - 364574 & 0711 - 311405</p>
                                     </div>
                                 </div>
                             </div>
@@ -108,10 +108,15 @@
                                     Learning</a>
                             @endif
                             {{-- Harus di ubah agar hanya admin saja di bagian Admin --}}
-                            @if (Auth::check())
+                            {{-- @if (Auth::check())
                                 <a href="{{ url('admin/categories') }}"
                                     class="nav-item nav-link {{ request()->is('selflearning') ? 'active' : '' }}">Admin</a>
+                            @endif --}}
+                            @if (auth()->check() && auth()->user()->roles()->where('title', 'admin')->exists())
+                                <a class="nav-item nav-link" href="/admin">Admin</a>
                             @endif
+
+
 
 
 
@@ -156,8 +161,8 @@
                             <p><i class="fa fa-map-marker-alt"></i>2Q96+4FW, Jl. Letkol Iskandar, 17 Ilir, Ilir Timur
                                 I,
                                 Palembang City, South Sumatra 30111</p>
-                            <p><i class="fa fa-phone-alt"></i>+00000000</p>
-                            <p><i class="fa fa-envelope"></i>info@example.com</p>
+                            <p><i class="fa fa-phone-alt"></i>0711 - 364574 & 0711 - 311405</p>
+                            <p><i class="fa fa-envelope"></i>ptlematang@gmail.com</p>
 
                         </div>
                     </div>

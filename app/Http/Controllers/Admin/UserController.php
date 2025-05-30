@@ -16,6 +16,11 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
     public function index()
     {
         $users = User::all();
@@ -62,7 +67,7 @@ class UserController extends Controller
     {
         $roles = Role::pluck('title', 'id');
 
-        return view('admin.users.edit', compact('user','roles'));
+        return view('admin.users.edit', compact('user', 'roles'));
     }
 
     /**
@@ -72,7 +77,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUserRequest $request,User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
         $user->update($request->validated() + ['password' => bcrypt($request->password)]);
         $user->roles()->sync($request->input('roles'));
@@ -99,7 +104,7 @@ class UserController extends Controller
         ]);
     }
 
-     /**
+    /**
      * Delete all selected Permission at once.
      *
      * @param Request $request

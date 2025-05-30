@@ -2538,7 +2538,7 @@ a:focus {
     margin-top: 20px;
     width: 150px;
     height: 6px;
-    background-color: yellow;
+    background-color: rgb(58, 232, 14);
 }
 
 /* Responsive untuk layar kecil */

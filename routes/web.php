@@ -112,6 +112,15 @@ Route::middleware(['guest', 'no-cache'])->group(function () {
     Route::post('register', [\App\Http\Controllers\Auth\RegisterController::class, 'register']);
 });
 
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    // Halaman dashboard admin
+    Route::get('/', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+
+    // Resource user (controller UserController)
+    Route::resource('users', App\Http\Controllers\Admin\UserController::class);
+});
 
 
 

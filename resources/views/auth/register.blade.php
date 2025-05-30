@@ -55,13 +55,13 @@
         <span class="fa fa-lock"></span>
         <input type="password" name="password_confirmation" class="pass-key" required placeholder="Confirm Password" />
       </div>
-      <div class="pass">
+       {{-- <div class="pass">
         <a href={{route('login')}}>Already have an account? Login</a>
-      </div>
-      <div class="field">
+      </div> --}}
+       <div class="field">
         <input type="submit" value="REGISTER" />
       </div>
-    </form>
+    {{-- </form>
     <div class="signup">
       Or register with
     </div>
@@ -72,7 +72,7 @@
       <div class="instagram">
         <i class="fab fa-instagram"><span>Instagram</span></i>
       </div>
-    </div>
+    </div> --}}
   </div>
 </div>
 
