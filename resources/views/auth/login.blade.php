@@ -34,46 +34,49 @@
 
 <body>
 
-    <!-- Forms Section -->
     <section class="forms-section">
-        <div class="bg-img">
-            <div class="content">
-                <header>Welcome To <h1 style="color: rgb(38, 211, 11)">PT. Lematang</h1></header>
+  <div class="wrapper">
+    <form action="{{ route('login') }}" method="POST">
+      @csrf
+      <h2>Login</h2>
 
-                <form method="POST" action="{{ route('login') }}">
-                    @csrf
-                    <div class="field">
-                        <span class="fa fa-user"></span>
-                        <input type="email" name="email" required placeholder="Email or Phone" />
-                    </div>
-                    <div class="field space">
-                        <span class="fa fa-lock"></span>
-                        <input type="password" name="password" class="pass-key" required placeholder="Password" />
-                        <span class="show" onclick="togglePassword()">SHOW</span>
-                    </div>
-                    <div class="pass">
-                        <a href="{{ route('password.request') }}">Forgot Password?</a>
-                    </div>
-                    <div class="field">
-                        <input type="submit" value="LOGIN" />
-                    </div>
-                </form>
-                {{-- <div class="login">Or login with</div>
-                <div class="links">
-                    <div class="facebook">
-                        <i class="fab fa-facebook-f"><span>Facebook</span></i>
-                    </div>
-                    <div class="instagram">
-                        <i class="fab fa-instagram"><span>Instagram</span></i>
-                    </div>
-                </div> --}}
-                {{-- <div class="signup">
-                    Don't have account?
-                    <a href="{{ route('register') }}">Signup Now</a>
-                </div> --}}
-            </div>
+      @if ($errors->any())
+        <div class="form-error">
+          @foreach ($errors->all() as $error)
+            <p>{{ $error }}</p>
+          @endforeach
         </div>
-    </section>
+      @endif
+
+      <div class="input-field">
+        <input type="text" name="email" placeholder="Email" value="{{ old('email') }}" required />
+        <label>Enter your email</label>
+      </div>
+
+      <div class="input-field">
+        <input type="password" name="password" class="pass-key" placeholder="Password" required />
+        <label>Enter your password</label>
+        <span class="toggle-pass" onclick="togglePassword()" aria-label="Toggle Password Visibility"
+          role="button" tabindex="0"></span>
+      </div>
+
+      <div class="forget">
+        <label for="remember">
+          <input type="checkbox" name="remember" id="remember">
+          <p>Remember me</p>
+        </label>
+        <a href="{{ route('password.request') }}">Forgot password?</a>
+      </div>
+
+      <button type="submit">Log In</button>
+
+      <div class="register">
+        <p>Don't have an account? <a href="{{ route('register') }}">Register</a></p>
+      </div>
+    </form>
+  </div>
+</section>
+
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

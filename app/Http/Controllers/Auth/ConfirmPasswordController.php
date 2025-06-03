@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ConfirmsPasswords;
+use Illuminate\Http\Request;
 
 class ConfirmPasswordController extends Controller
 {
@@ -36,5 +37,21 @@ class ConfirmPasswordController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    /**
+     * Override method to validate password confirmation with custom error messages.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     */
+    protected function validateConfirmPassword(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|confirmed',
+        ], [
+            'password.required' => 'Password wajib diisi.',
+            'password.confirmed' => 'Password konfirmasi tidak cocok.',
+        ]);
     }
 }

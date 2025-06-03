@@ -6,21 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
     use AuthenticatesUsers;
 
     /**
@@ -39,6 +29,7 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
     public function logout(Request $request)
     {
         Auth::logout();
@@ -48,5 +39,18 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('login');  // redirect ke halaman login setelah logout
+    }
+
+    /**
+     * Override pesan error login gagal dengan pesan custom.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        throw ValidationException::withMessages([
+            $this->username() => ['Email atau kata sandi kamu salah.'],
+        ]);
     }
 }

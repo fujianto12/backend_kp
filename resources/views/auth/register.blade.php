@@ -11,8 +11,7 @@
     <link href="img/favicon.ico" rel="icon" />
 
     <!-- Google Font -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet" />
 
     <!-- CSS Libraries -->
@@ -32,49 +31,52 @@
 </head>
 
 <body>
-    <!-- Background container dengan penamaan benar -->
-   <div class="bg-img">
-  <div class="content">
-    <header>Register Form</header>
-    <form method="POST" action="{{ route('register') }}">
+ <section class="forms-section">
+  <div class="wrapper">
+    <form action="{{ route('register') }}" method="POST">
       @csrf
-      <div class="field">
-        <span class="fa fa-user"></span>
-        <input type="text" name="name" value="{{ old('name') }}" required placeholder="Full Name" />
+      <h2>Register</h2>
+
+      @if ($errors->any())
+        <div class="form-error">
+          @foreach ($errors->all() as $error)
+            <p>{{ $error }}</p>
+          @endforeach
+        </div>
+      @endif
+
+      <div class="input-field">
+        <input type="text" name="name" placeholder=" " value="{{ old('name') }}"  />
+        <label>Full Name</label>
       </div>
-      <div class="field">
-        <span class="fa fa-envelope"></span>
-        <input type="email" name="email" value="{{ old('email') }}" required placeholder="Email" />
+
+      <div class="input-field">
+        <input type="email" name="email" placeholder=" " value="{{ old('email') }}"  />
+        <label>Email</label>
       </div>
-      <div class="field space">
-        <span class="fa fa-lock"></span>
-        <input type="password" name="password" class="pass-key" required placeholder="Password" />
-        <span class="show" onclick="togglePassword()">SHOW</span>
+
+      <div class="input-field">
+        <input type="password" name="password" class="pass-key" placeholder=" "  />
+        <label>Enter your password</label>
+        <span class="toggle-pass" onclick="togglePassword()" aria-label="Toggle Password Visibility"
+          role="button" tabindex="0">&#128065;</span>
       </div>
-      <div class="field space">
-        <span class="fa fa-lock"></span>
-        <input type="password" name="password_confirmation" class="pass-key" required placeholder="Confirm Password" />
+
+      <div class="input-field">
+        <input type="password" name="password_confirmation" class="pass-key" placeholder=" "  />
+        <label>Confirm Password</label>
       </div>
-       {{-- <div class="pass">
-        <a href={{route('login')}}>Already have an account? Login</a>
-      </div> --}}
-       <div class="field">
-        <input type="submit" value="REGISTER" />
+
+      <button type="submit">Register</button>
+
+      <div class="register">
+        <p>Already have an account? <a href="{{ route('login') }}">Log In</a></p>
       </div>
-    {{-- </form>
-    <div class="signup">
-      Or register with
-    </div>
-    <div class="links">
-      <div class="facebook">
-        <i class="fab fa-facebook-f"><span>Facebook</span></i>
-      </div>
-      <div class="instagram">
-        <i class="fab fa-instagram"><span>Instagram</span></i>
-      </div>
-    </div> --}}
+    </form>
   </div>
-</div>
+</section>
+
+
 
 
     <!-- JavaScript Libraries -->
